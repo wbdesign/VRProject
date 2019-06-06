@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 	[Tooltip("Debug Key for testing")]
 	public KeyCode debugKey = KeyCode.Return;
 
-	private void Awake()
+	private void Start()
 	{
 		character = GetComponent<CharacterController>();
 	}
@@ -93,6 +93,6 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		// Actually Move now
-		character.SimpleMove(m_speed * Camera.current.transform.forward);
+		character.SimpleMove(m_speed * transform.forward);
 	}
 }
