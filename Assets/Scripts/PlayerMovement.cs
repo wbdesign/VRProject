@@ -93,6 +93,6 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		// Actually Move now
-		character.SimpleMove(m_speed * transform.forward);
+		character.Move(m_speed * transform.forward);
 	}
 }
