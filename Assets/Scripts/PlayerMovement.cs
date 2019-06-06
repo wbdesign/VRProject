@@ -38,6 +38,9 @@ public class PlayerMovement : MonoBehaviour
 	[Tooltip("Debug Key for testing")]
 	public KeyCode debugKey = KeyCode.Return;
 
+	[Header("Disbales Movement")]
+	public bool isDisabled = false;
+
 	private void Start()
 	{
 		character = GetComponent<CharacterController>();
@@ -45,6 +48,10 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		// IS DISABLED
+		if (isDisabled)
+			return;
+
 		// Get Input
 		bool input = OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
 		input |= Input.GetKey(debugKey);
