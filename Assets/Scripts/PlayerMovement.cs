@@ -40,11 +40,10 @@ public class PlayerMovement : MonoBehaviour
 	[Range(0,10)]
 	public float maxSpeed = 1.0f;
 
-	[Tooltip("Debug Key for testing")]
-	public KeyCode debugKey = KeyCode.Return;
-
 	[Header("Disbales Movement")]
 	public bool isDisabled = false;
+
+	private bool m_Input = false;
 
 	private void Start()
 	{
@@ -57,27 +56,13 @@ public class PlayerMovement : MonoBehaviour
 		if (isDisabled)
 			return;
 
-		// Get Input
-		bool input = OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger);
-		input |= Input.GetKey(debugKey);
-
 		// Setup Movement State
-		if (input)
+		if (m_offFrames > m_offDelay)
 		{
-			m_offFrames = 0;
-
-			if (m_moveState == MoveState.stop)
-			{
-				m_moveState = MoveState.start;
-				m_timer = 0;
-			}
+			m_offFrames = m_offDelay;
+			m_moveState = MoveState.stop;
 		}
-		else
-		{
-			m_offFrames++;
-			if (m_offFrames > m_offDelay)
-				m_moveState = MoveState.stop;
-		}
+		m_offFrames++;
 
 		// For starting
 		if (m_moveState == MoveState.start)
@@ -106,5 +91,16 @@ public class PlayerMovement : MonoBehaviour
 
 		// Actually Move now
 		character.Move(m_speed * Orientation.forward);
+	}
+
+	public void TriggerPressed()
+	{
+		m_offFrames = 0;
+
+		if (m_moveState == MoveState.stop)
+		{
+			m_moveState = MoveState.start;
+			m_timer = 0;
+		}
 	}
 }
