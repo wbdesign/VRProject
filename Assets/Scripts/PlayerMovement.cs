@@ -23,6 +23,11 @@ public class PlayerMovement : MonoBehaviour
 
 	CharacterController character;
 
+	[Header("Orientation Transform")]
+	[Tooltip("The Camera Transform")]
+	public Transform Orientation;
+
+	[Header("Speed Variables")]
 	[Tooltip("Time taken to ramp up from 0 - Max Speed (in seconds)")]
 	[Range(0, 5)]
 	public float rampUpTime = 0.5f;
@@ -100,6 +105,6 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		// Actually Move now
-		character.Move(m_speed * transform.forward);
+		character.Move(m_speed * Orientation.forward);
 	}
 }
