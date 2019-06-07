@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 	public float rampDownTime = 1.0f;
 
 	[Tooltip("Max Speed")]
-	[Range(1,10)]
+	[Range(0,10)]
 	public float maxSpeed = 1.0f;
 
 	[Tooltip("Debug Key for testing")]
