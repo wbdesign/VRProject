@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class PhotoTime : MonoBehaviour
 {
@@ -17,7 +18,11 @@ public class PhotoTime : MonoBehaviour
 	// If PhotoTime is active
 	public bool photoTime = false;
 
-	private Texture2D[] textures; 
+	private bool takingShot = false;
+
+	private Texture2D[] textures;
+
+	private string screenShotDir = "/ScreenShot";
 
     /// <summary>
 	/// Start
@@ -25,27 +30,11 @@ public class PhotoTime : MonoBehaviour
     void Start()
     {
 		m_movement = FindObjectOfType<PlayerMovement>();
+		if (!Directory.Exists(Application.persistentDataPath + screenShotDir))
+			Directory.CreateDirectory(Application.persistentDataPath + screenShotDir);
 	}
 
     /// <summary>
-	/// Update
-	/// </summary>
-    void Update()
-    {
-		// EARLY EXIT
-		if (!photoTime)
-			return;
-
-		// Take Photo
-		if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
-		{
-			TakePhoto();
-			ExitPhotoTime();
-		}
-
-    }
-
-	/// <summary>
 	/// StartPhotoTime
 	/// </summary>
 	public void StartPhotoTime()
@@ -68,17 +57,17 @@ public class PhotoTime : MonoBehaviour
 	{
 		if (photoTime)
 		{
-			m_movement.isDisabled = true;
-			StartCoroutine(TakeScreenShot());
-
-			ExitPhotoTime();
+			if (!takingShot)
+			{
+				takingShot = true;
+				StartCoroutine(TakeScreenShot());
+				m_movement.movementLock = 5.0f;
+			}
 		}
 	}
 
 	private IEnumerator TakeScreenShot()
 	{
-		yield return new WaitForEndOfFrame();
-
 		Texture2D screenShot = new Texture2D(texture.width, texture.height, TextureFormat.RGB24, false);
 		photoCamera.Render();
 		RenderTexture.active = texture;
@@ -87,16 +76,17 @@ public class PhotoTime : MonoBehaviour
 
 		int shotCount = PlayerPrefs.GetInt(m_shotCountName);
 
-		string fileName ="Resources/ScreenShots/" + shotCount.ToString() + ".png";
+		string fileName = Application.persistentDataPath + screenShotDir + "/" + shotCount.ToString() + ".png";
 
 		byte[] bytes = screenShot.EncodeToPNG();
 		System.IO.File.WriteAllBytes(fileName, bytes);
 
 		Debug.Log("Took ScreenShot");
 		PlayerPrefs.SetInt(m_shotCountName, shotCount + 1);
-		m_movement.isDisabled = false;
 
-		textures = Resources.LoadAll<Texture2D>("ScreenShots");
-		Debug.LogWarning(textures.Length.ToString());
+		ExitPhotoTime();
+
+		yield return new WaitForSecondsRealtime(0.5f);
+		takingShot = false;
 	}
 }

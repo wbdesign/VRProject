@@ -41,9 +41,7 @@ public class PlayerMovement : MonoBehaviour
 	public float maxSpeed = 1.0f;
 
 	[Header("Disbales Movement")]
-	public bool isDisabled = false;
-
-	private bool m_Input = false;
+	public float movementLock = -1;
 
 	private void Start()
 	{
@@ -53,9 +51,13 @@ public class PlayerMovement : MonoBehaviour
 	private void FixedUpdate()
 	{
 		// IS DISABLED
-		if (isDisabled)
+		if (movementLock > 0)
+		{
+			movementLock -= Time.deltaTime;
 			return;
+		}
 
+		movementLock = -1;
 		// Setup Movement State
 		if (m_offFrames > m_offDelay)
 		{
