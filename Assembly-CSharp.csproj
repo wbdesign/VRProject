@@ -848,13 +848,13 @@
       <Project>{AC370999-F39C-3141-174C-C15735BB9568}</Project>
       <Name>Oculus.VR.Scripts.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="Oculus.VR.csproj">
-      <Project>{7F38E5B6-F446-88C0-0E44-4C17DA8006CA}</Project>
-      <Name>Oculus.VR</Name>
-    </ProjectReference>
     <ProjectReference Include="PathCreator.csproj">
       <Project>{4BB48A55-9AA7-25BF-C1ED-9317144B4A65}</Project>
       <Name>PathCreator</Name>
+    </ProjectReference>
+    <ProjectReference Include="Oculus.VR.csproj">
+      <Project>{7F38E5B6-F446-88C0-0E44-4C17DA8006CA}</Project>
+      <Name>Oculus.VR</Name>
     </ProjectReference>
     <ProjectReference Include="PathCreatorEditor.csproj">
       <Project>{A6E62575-8EF4-2A53-D4B4-7B9FBF2BD0EF}</Project>

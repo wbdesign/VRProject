@@ -7,6 +7,8 @@ public class Swim : MonoBehaviour
 {
 	public PathCreator pathCreator;
 	public EndOfPathInstruction endOfPathInstruction;
+	private bool m_pathing = true;
+
 	public float speed = 5;
 	float distanceTravelled;
 
@@ -27,6 +29,12 @@ public class Swim : MonoBehaviour
 	public float changeTime = 2.0f;
 	private float targetSpeed = 5;
 
+	[Header("Player Interaction")]
+	private Transform m_player;
+	public float pullRange = 50;
+	public float pushRange = 20;
+	private Vector3 m_pathPosition;
+
 	void Start()
 	{
 		if (pathCreator != null)
@@ -39,6 +47,8 @@ public class Swim : MonoBehaviour
 		{
 			StartCoroutine(RandomSpeedChanger());
 		}
+
+		m_player = FindObjectOfType<PlayerMovement>().transform;
 	}
 
 	private void OnDestroy()
@@ -55,12 +65,30 @@ public class Swim : MonoBehaviour
 				m_currentLerp = lerpTime;
 			speed = Mathf.Lerp(m_startSpeed, targetSpeed, m_currentLerp / lerpTime);
 		}
-
-		if (pathCreator != null)
+		// Check Range to Player
+		float distance = Vector3.Distance(transform.position, m_player.position);
+		if (distance < pullRange)
 		{
-			distanceTravelled += speed * Time.deltaTime;
-			transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-			transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+			if (m_pathing)
+			{
+				//m_pathing = false;
+				m_pathPosition = transform.position;
+			}
+		}
+		else
+		{
+			m_pathing = true;
+		}
+
+		// Normal Pathing
+		if (m_pathing)
+		{
+			if (pathCreator != null)
+			{
+				distanceTravelled += speed * Time.deltaTime;
+				transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+				transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+			}
 		}
 	}
 
