@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 public class PhotoTime : MonoBehaviour
 {
@@ -11,18 +12,26 @@ public class PhotoTime : MonoBehaviour
 	static string m_shotCountName = "ShotCount";
 
 	// Photo Camera
+	[Header("Camera Stuff")]
+	public CameraHolster camHolster;
 	public Camera photoCamera;
 	public RenderTexture texture;
 	public Material material;
 
-	// If PhotoTime is active
-	public bool photoTime = false;
 
+	// If PhotoTime is active
+	private bool photoTime = false;
 	private bool takingShot = false;
+
+	[Header("ScreenShot Image")]
+	public Gallery gallery;
+	public Image image;
+	private bool displayShot = false;
+	private bool imageShown = false;
 
 	private Texture2D[] textures;
 
-	private string screenShotDir = "/ScreenShot";
+	static string screenShotDir = "/ScreenShot";
 
     /// <summary>
 	/// Start
@@ -40,6 +49,10 @@ public class PhotoTime : MonoBehaviour
 	public void StartPhotoTime()
 	{
 		photoTime = true;
+
+		// Bring Camera UP
+		photoCamera.enabled = true;
+		camHolster.GoUp();
 	}
 
 	/// <summary>
@@ -48,6 +61,11 @@ public class PhotoTime : MonoBehaviour
 	public void ExitPhotoTime()
 	{
 		photoTime = false;
+		takingShot = false;
+
+		// Put camera down
+		photoCamera.enabled = false;
+		camHolster.Holster();
 	}
 
 	/// <summary>
@@ -57,15 +75,31 @@ public class PhotoTime : MonoBehaviour
 	{
 		if (photoTime)
 		{
+			m_movement.movementLock = 0.5f;
 			if (!takingShot)
 			{
 				takingShot = true;
 				StartCoroutine(TakeScreenShot());
-				m_movement.movementLock = 5.0f;
 			}
 		}
 	}
 
+	/// <summary>
+	/// ClosePhoto
+	/// </summary>
+	public void ClosePhoto()
+	{
+		if (photoTime)
+		{
+			displayShot = false;
+			ExitPhotoTime();
+		}
+	}
+
+	/// <summary>
+	/// TakeScreenShot
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator TakeScreenShot()
 	{
 		Texture2D screenShot = new Texture2D(texture.width, texture.height, TextureFormat.RGB24, false);
@@ -76,7 +110,7 @@ public class PhotoTime : MonoBehaviour
 
 		int shotCount = PlayerPrefs.GetInt(m_shotCountName);
 
-		string fileName = Application.persistentDataPath + screenShotDir + "/" + shotCount.ToString() + ".png";
+		string fileName = Application.persistentDataPath + screenShotDir + "/" + shotCount.ToString().PadLeft(4,'0') + ".png";
 
 		byte[] bytes = screenShot.EncodeToPNG();
 		System.IO.File.WriteAllBytes(fileName, bytes);
@@ -84,9 +118,40 @@ public class PhotoTime : MonoBehaviour
 		Debug.Log("Took ScreenShot");
 		PlayerPrefs.SetInt(m_shotCountName, shotCount + 1);
 
-		ExitPhotoTime();
-
 		yield return new WaitForSecondsRealtime(0.5f);
-		takingShot = false;
+		displayShot = true;
+	}
+
+	/// <summary>
+	/// Update
+	/// </summary>
+	private void Update()
+	{
+		if (displayShot)
+		{
+			ShowImage();
+		}
+		else
+		{
+			image.gameObject.SetActive(false);
+			imageShown = false;
+		}
+	}
+
+	/// <summary>
+	/// ShowImage
+	/// </summary>
+	private void ShowImage()
+	{
+		if (imageShown)
+			return;
+
+		imageShown = true;
+		image.gameObject.SetActive(true);
+
+		Texture2D texture = gallery.GetLastScreenShot();
+		Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
+			new Vector2(0.5f, 0.5f));
+		image.sprite = sp;
 	}
 }
