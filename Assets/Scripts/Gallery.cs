@@ -7,7 +7,7 @@ using System.IO;
 public class Gallery : MonoBehaviour
 {
 	[SerializeField]
-	GameObject canvas;
+	Image image;
 	string[] files = null;
 	int whichScreenShotIsShown = 0;
 
@@ -24,7 +24,7 @@ public class Gallery : MonoBehaviour
 			Texture2D texture = GetScreenshotImage(pathToFile);
 			Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
 				new Vector2(0.5f, 0.5f));
-			canvas.GetComponent<Image>().sprite = sp;
+			image.sprite = sp;
 		}
 	}
 
@@ -63,5 +63,14 @@ public class Gallery : MonoBehaviour
 				whichScreenShotIsShown = files.Length - 1;
 			GetPictureAndShowIt();
 		}
+	}
+
+	public Texture2D GetLastScreenShot()
+	{
+		files = Directory.GetFiles(Application.persistentDataPath + "/ScreenShot/", "*.png");
+		if (files.Length > 0)
+			return GetScreenshotImage(files[files.Length - 1]);
+
+		return null;
 	}
 }
