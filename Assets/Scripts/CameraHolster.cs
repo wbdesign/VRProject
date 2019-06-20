@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PathCreation;
 
 public class CameraHolster : MonoBehaviour
 {
@@ -9,10 +8,8 @@ public class CameraHolster : MonoBehaviour
 
 	public Transform upTransform;
 	public Transform holsteredTransform;
-	public float speed = 8;
-
-	float dstTravelled;
-	VertexPath path;
+	public float time = 8;
+	private float elapsedTime = 0;
 
 	bool pathing = false;
 
@@ -24,52 +21,43 @@ public class CameraHolster : MonoBehaviour
 
 	public void GoUp()
 	{
+		elapsedTime = 0;
 		pathing = true;
-		MakePath(transform, upTransform);
+		waypoint[0] = holsteredTransform;
+		waypoint[1] = upTransform;
 	}
 
 	public void Holster()
 	{
+		elapsedTime = 0;
 		pathing = true;
-		MakePath(transform, holsteredTransform);
-	}
-
-	void MakePath(Transform from, Transform to)
-	{
-		waypoints[0] = from;
-		waypoints[1] = to;
-
-		BezierPath bezierPath = new BezierPath(waypoints, false, PathSpace.xyz);
-		path = new VertexPath(bezierPath);
+		waypoint[0] = upTransform;
+		waypoint[1] = holsteredTransform;
 	}
 
 	void Update()
 	{
+		// NOT pathing
 		if (!pathing)
 		{
+			// set transform to end transform
 			transform.position = waypoints[1].position;
 			transform.rotation = waypoints[1].rotation;
 
 			return;
 		}
-
-		Vector3 pathEnd = path.vertices[path.vertices.Length - 1];
-		Vector3 trueEnd = waypoints[1].position;
-		if (Vector3.Distance(transform.position, trueEnd) < 0.1f)
+		
+		// Pathing so lerp to end position
+		float lerpTime = elapsedTime / time;
+		transform.position = Vector3.Lerp(waypoint[0].position, waypoint[1].position, lerpTime);
+		
+		// Stop pathing when end is reached
+		if (lerpTime >= 1.0f)
 		{
+			elapsedTime = 0;
 			pathing = false;
-			return;
 		}
-
-		if (Vector3.Distance(pathEnd, trueEnd) > 0.1f)
-		{
-			MakePath(waypoints[1], transform);
-		}
-
-		if (path != null)
-		{
-			dstTravelled += speed * Time.deltaTime;
-			transform.position = path.GetPointAtDistance(dstTravelled);
-		}
+		
+		return;
 	}
 }
