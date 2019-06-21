@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2568556490942706025}
   - component: {fileID: 6157938843130016773}
   - component: {fileID: 7219314574650064653}
-  - component: {fileID: 6484071118249976693}
+  - component: {fileID: 5616050147609969091}
   m_Layer: 0
   m_Name: Whale
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6484071118249976693
+--- !u!65 &5616050147609969091
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,5 +89,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 31.153618, y: 16.83599, z: 45.087605}
   m_Center: {x: 0, y: 0, z: 0}

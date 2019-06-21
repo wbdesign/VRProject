@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8495271460483205580}
   - component: {fileID: 6649203439819400293}
   - component: {fileID: 8224738282554197893}
-  - component: {fileID: 6892243387466396613}
+  - component: {fileID: 6099757379882994544}
   m_Layer: 0
   m_Name: Fish_001
   m_TagString: Untagged
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706972812809570995}
-  m_Mesh: {fileID: 4300000, guid: ef6bb8eb30d2e44459fed1d06cd991d3, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 51b928374e1ba6d4885b8a982a39ae35, type: 3}
 --- !u!23 &8224738282554197893
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -78,8 +78,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6892243387466396613
-BoxCollider:
+--- !u!136 &6099757379882994544
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -88,6 +88,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 1.9663086
+  m_Height: 3.9326172
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
