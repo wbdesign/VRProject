@@ -261,6 +261,7 @@
     <None Include="Assets\Meshes\New Text Document.txt" />
     <None Include="Assets\Scripts\New Text Document.txt" />
     <None Include="Assets\Textures\New Text Document.txt" />
+    <None Include="Assets\Shaders\WaveyGrass.shader" />
     <None Include="Assets\Materials\New Text Document.txt" />
     <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
       <HintPath>C:/Users/s181305/Documents/SVN/VRProject/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>

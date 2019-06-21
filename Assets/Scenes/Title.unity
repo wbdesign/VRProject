@@ -301,7 +301,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: dc6c28ad645c24b449bc5df820dc8d57, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ade69fd6848b63345af128d049404781, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1074,6 +1074,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Controls Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000601968225816919, guid: c24d0cb3acbb0f44ab46bd5f99e20c8c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1000601968225816918, guid: c24d0cb3acbb0f44ab46bd5f99e20c8c,
         type: 3}
