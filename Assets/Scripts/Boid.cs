@@ -58,8 +58,7 @@ public class Boid : MonoBehaviour
 			transform.rotation = Quaternion.Slerp(transform.rotation,
 													  Quaternion.LookRotation(direction),
 													  rotationSpeed * Time.deltaTime);
-			speed = Random.Range(minSpeed, maxSpeed);
-			this.GetComponent<Animation>()["Motion"].speed = speed;
+			ChangeSpeed(Random.Range(minSpeed, maxSpeed));
 		}
 		else
 		{

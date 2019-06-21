@@ -84,3 +84,15 @@ Resources/
 Assembly-CSharp\.csproj
 
 Library/CrashedAssetImports\.txt
+
+Assembly-CSharp-Editor\.csproj
+
+Oculus\.VR\.csproj
+
+Oculus\.VR\.Editor\.csproj
+
+Oculus\.VR\.Scripts\.Editor\.csproj
+
+PathCreator\.csproj
+
+PathCreatorEditor\.csproj

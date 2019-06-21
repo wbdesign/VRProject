@@ -32,8 +32,8 @@ public class Flock : MonoBehaviour
 			for (int i = 0; i < numFish; i++)
 			{
 
-				allFish.Add((GameObject)Instantiate(fishPrefab, Vector3.zero, Quaternion.identity));
-				allFish[numFish].GetComponent<Boid>().myFlock = this;
+				allFish.Add((GameObject)Instantiate(fishPrefab, transform.position, Quaternion.identity));
+				allFish[i].GetComponent<Boid>().myFlock = this;
 			}
 		}
 
