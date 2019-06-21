@@ -246,11 +246,17 @@
     <Compile Include="Assets\PathCreator\Examples\Scripts\PathPlacer.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\PathSceneTool.cs" />
     <Compile Include="Assets\PathCreator\Examples\Scripts\RoadMeshCreator.cs" />
+    <Compile Include="Assets\Scripts\AreaActivator.cs" />
+    <Compile Include="Assets\Scripts\Boid.cs" />
+    <Compile Include="Assets\Scripts\CameraHolster.cs" />
+    <Compile Include="Assets\Scripts\Flock.cs" />
     <Compile Include="Assets\Scripts\Gallery.cs" />
+    <Compile Include="Assets\Scripts\Menu.cs" />
     <Compile Include="Assets\Scripts\PhotoTime.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Swim.cs" />
     <Compile Include="Assets\Scripts\VRInput.cs" />
+    <Compile Include="Assets\Scripts\VRRaycaster.cs" />
     <None Include="Assets\Prefabs\New Text Document.txt" />
     <None Include="Assets\Meshes\New Text Document.txt" />
     <None Include="Assets\Scripts\New Text Document.txt" />

@@ -8,7 +8,7 @@ public class CameraHolster : MonoBehaviour
 
 	public Transform upTransform;
 	public Transform holsteredTransform;
-	public float time = 8;
+	public float time = 0.5f;
 	private float elapsedTime = 0;
 
 	bool pathing = false;
@@ -42,12 +42,13 @@ public class CameraHolster : MonoBehaviour
 		{
 			// set transform to end transform
 			transform.position = waypoints[1].position;
-			transform.rotation = waypoints[1].rotation;
+			//transform.rotation = waypoints[1].rotation;
 
 			return;
 		}
-		
+
 		// Pathing so lerp to end position
+		elapsedTime += Time.deltaTime;
 		float lerpTime = elapsedTime / time;
 		transform.position = Vector3.Lerp(waypoints[0].position, waypoints[1].position, lerpTime);
 		
