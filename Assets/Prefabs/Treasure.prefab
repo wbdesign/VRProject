@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 8238337709675990058}
   - component: {fileID: 4834868769963784458}
   - component: {fileID: 6986302191442773243}
-  - component: {fileID: 8816394872431889476}
+  - component: {fileID: 5460204473418652920}
   m_Layer: 0
   m_Name: Treasure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8238337709675990058
 Transform:
@@ -78,7 +78,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &8816394872431889476
+--- !u!65 &5460204473418652920
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,5 +89,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.7052441, y: 1.9164633, z: 1.9976782}
   m_Center: {x: 0, y: 0, z: 0}
