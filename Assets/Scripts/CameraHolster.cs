@@ -23,16 +23,16 @@ public class CameraHolster : MonoBehaviour
 	{
 		elapsedTime = 0;
 		pathing = true;
-		waypoint[0] = holsteredTransform;
-		waypoint[1] = upTransform;
+		waypoints[0] = holsteredTransform;
+		waypoints[1] = upTransform;
 	}
 
 	public void Holster()
 	{
 		elapsedTime = 0;
 		pathing = true;
-		waypoint[0] = upTransform;
-		waypoint[1] = holsteredTransform;
+		waypoints[0] = upTransform;
+		waypoints[1] = holsteredTransform;
 	}
 
 	void Update()
@@ -49,7 +49,7 @@ public class CameraHolster : MonoBehaviour
 		
 		// Pathing so lerp to end position
 		float lerpTime = elapsedTime / time;
-		transform.position = Vector3.Lerp(waypoint[0].position, waypoint[1].position, lerpTime);
+		transform.position = Vector3.Lerp(waypoints[0].position, waypoints[1].position, lerpTime);
 		
 		// Stop pathing when end is reached
 		if (lerpTime >= 1.0f)
