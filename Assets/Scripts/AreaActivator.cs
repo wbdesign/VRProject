@@ -13,16 +13,16 @@ public class AreaActivator : MonoBehaviour
 
 	public float disableTime = 10.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+	// Start is called before the first frame update
+	void Start()
+	{
 		flocks = FindObjectsOfType<Flock>();
-    }
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        for (int i = 0; i < flocks.Length; ++i)
+	// Update is called once per frame
+	void Update()
+	{
+		for (int i = 0; i < flocks.Length; ++i)
 		{
 			bool enabled = true;
 			Vector3 pos = flocks[i].transform.position;
@@ -46,11 +46,14 @@ public class AreaActivator : MonoBehaviour
 			}
 			else
 			{
-				if (flocks[i].deactivating == null)
-					flocks[i].deactivating = flocks[i].StartCoroutine(flocks[i].DisableAfter(disableTime));
+				if (flocks[i].gameObject.activeSelf)
+				{
+					if (flocks[i].deactivating == null)
+						flocks[i].deactivating = flocks[i].StartCoroutine(flocks[i].DisableAfter(disableTime));
+				}
 			}
 		}
-    }
+	}
 
 	float GetAngleToPlayer(Vector3 targetPos)
 	{
