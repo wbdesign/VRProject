@@ -5,7 +5,7 @@ using UnityEngine;
 public class Flock : MonoBehaviour
 {
 	public List<GameObject> fishPrefabs = new List<GameObject>();
-	public Vector3 tankSize = new Vector3(5,5,5);
+	public Vector3 tankSize = new Vector3(5, 5, 5);
 
 	public uint minFish = 8;
 	public uint maxFish = 16;
@@ -32,7 +32,7 @@ public class Flock : MonoBehaviour
 			for (int i = 0; i < numFish; i++)
 			{
 
-				allFish.Add((GameObject)Instantiate(fishPrefab, transform.position, Quaternion.identity));
+				allFish.Add(Instantiate(fishPrefab, transform.position, Quaternion.identity));
 				allFish[i].GetComponent<Boid>().myFlock = this;
 			}
 		}
@@ -40,16 +40,38 @@ public class Flock : MonoBehaviour
 		RandomPos();
 	}
 
-	private void Awake()
+	void ToggleFish()
 	{
+		foreach (var fish in allFish)
+		{
+			if (fish)
+				fish.SetActive(!fish.activeSelf);
+		}
+	}
+
+	private void OnDisable()
+	{
+		// Turn off fish
+		ToggleFish();
+	}
+
+	private void OnEnable()
+	{
+		// Get new Goal
+		NewGoalPos();
+		if (newGoal)
+			newGoal = false;
+
+		// Turn on Fish
 		RandomPos();
+		ToggleFish();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
 		if (!newGoal)
-			StartCoroutine(NewGoalPos(Random.Range(minGoalTime, maxGoalTime)));
+			StartCoroutine(NewGoalPosCoroutine(Random.Range(minGoalTime, maxGoalTime)));
 	}
 
 	void RandomPos()
@@ -59,6 +81,8 @@ public class Flock : MonoBehaviour
 			Vector3 pos = new Vector3(Random.Range(-tankSize.x, tankSize.x),
 									  Random.Range(-tankSize.y, tankSize.y),
 									  Random.Range(-tankSize.z, tankSize.z));
+
+			pos += transform.position;
 
 			allFish[i].transform.position = pos;
 		}
@@ -70,13 +94,20 @@ public class Flock : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 
-	public IEnumerator NewGoalPos(float time)
+	public IEnumerator NewGoalPosCoroutine(float time)
 	{
 		newGoal = true;
 		yield return new WaitForSeconds(time);
+		NewGoalPos();
+		newGoal = false;
+	}
+	
+	void NewGoalPos()
+	{
 		goalPos = new Vector3(Random.Range(-tankSize.x, tankSize.x),
 								  Random.Range(-tankSize.y, tankSize.y),
 								  Random.Range(-tankSize.z, tankSize.z));
-		newGoal = false;
+
+		goalPos += transform.position;
 	}
 }
