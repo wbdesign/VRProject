@@ -7,12 +7,14 @@ public class Boid : MonoBehaviour
 	public Flock myFlock;
 
 	public float speed = 0.001f;
-	float rotationSpeed = 5.0f;
-	float minSpeed = 0.8f;
-	float maxSpeed = 2.0f;
+	public float rotationSpeed = 5.0f;
+	public float minSpeed = 0.8f;
+	public float maxSpeed = 2.0f;
 	Vector3 averageHeading;
 	Vector3 averagePosition;
-	float neighbourDistance = 3.0f;
+	public float neighbourDistance = 3.0f;
+	[Range(0, 1)]
+	public float avoidRatio = 0.7f;
 	public Vector3 newGoalPos;
 
 	public bool turning = false;
@@ -20,14 +22,16 @@ public class Boid : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		ChangeSpeed(Random.Range(minSpeed, maxSpeed));		
+		ChangeSpeed(Random.Range(minSpeed, maxSpeed));
 	}
 
 	void OnTriggerEnter(Collider other)
 	{
+		Debug.Log("Trigger");
 		if (!turning)
 		{
 			newGoalPos = this.transform.position - other.gameObject.transform.position;
+			newGoalPos += myFlock.transform.position;
 		}
 
 		turning = true;
@@ -93,7 +97,8 @@ public class Boid : MonoBehaviour
 					vcentre += go.transform.position;
 					groupSize++;
 
-					if (dist < 2.0f)
+					float avoidDist = neighbourDistance * avoidRatio;
+					if (dist < avoidDist)
 					{
 						vavoid = vavoid + (this.transform.position - go.transform.position);
 					}
@@ -117,6 +122,14 @@ public class Boid : MonoBehaviour
 
 				transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotSpeed);
 			}
+		}
+		else if (Random.Range(0,10) >= 6)
+		{
+			Vector3 direction = goalPos - transform.position;
+			var targetRot = Quaternion.LookRotation(direction);
+			float rotSpeed = rotationSpeed * Time.deltaTime;
+
+			transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotSpeed);
 		}
 	}
 }
