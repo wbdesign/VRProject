@@ -67,4 +67,12 @@ public class Menu : MonoBehaviour
 		menuOpen = true;
 		Time.timeScale = 0f;
 	}
+
+	public void ToggleMenu()
+	{
+		if (menuOpen)
+			Close();
+		else
+			Open();
+	}
 }
