@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class Boid : MonoBehaviour
 {
+	[HideInInspector]
 	public Flock myFlock;
 
+	[HideInInspector]
 	public float speed = 0.001f;
+
+	[Header("Tweakers")]
 	public float rotationSpeed = 5.0f;
 	public float minSpeed = 0.8f;
 	public float maxSpeed = 2.0f;
-	Vector3 averageHeading;
-	Vector3 averagePosition;
 	public float neighbourDistance = 3.0f;
 	[Range(0, 1)]
 	public float avoidRatio = 0.7f;
-	public Vector3 newGoalPos;
 
+	Vector3 averageHeading;
+	Vector3 averagePosition;
+
+	[Header("Debug")]
+	public Vector3 newGoalPos;
 	public bool turning = false;
 
 	// Use this for initialization
