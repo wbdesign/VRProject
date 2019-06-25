@@ -9,6 +9,7 @@ public class Flock : MonoBehaviour
 
 	public uint minFish = 8;
 	public uint maxFish = 16;
+	private uint flockFish;
 	public List<GameObject> allFish = new List<GameObject>();
 
 	public float minGoalTime = 3;
@@ -21,23 +22,10 @@ public class Flock : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		//RenderSettings.fogColor = Color.blue;
-		//RenderSettings.fogDensity = 0.03F;
-		//RenderSettings.fog = true;
-		int numFish = Random.Range((int)minFish, (int)maxFish);
+		flockFish = (uint)Random.Range((int)minFish, (int)maxFish);
 
-		if (fishPrefabs.Count > 0)
-		{
-			GameObject fishPrefab = fishPrefabs[Random.Range(0, fishPrefabs.Count - 1)];
-			for (int i = 0; i < numFish; i++)
-			{
-
-				allFish.Add(Instantiate(fishPrefab, transform.position, Quaternion.identity));
-				allFish[i].GetComponent<Boid>().myFlock = this;
-			}
-		}
-
-		RandomPos();
+		// Make Fish
+		StartCoroutine(CreateFish());
 	}
 
 	void ToggleFish()
@@ -57,6 +45,10 @@ public class Flock : MonoBehaviour
 
 	private void OnEnable()
 	{
+		// Make sure all fish exist
+		if (allFish.Count < flockFish)
+			StartCoroutine(CreateFish());
+
 		// Get new Goal
 		NewGoalPos();
 		if (newGoal)
@@ -74,17 +66,22 @@ public class Flock : MonoBehaviour
 			StartCoroutine(NewGoalPosCoroutine(Random.Range(minGoalTime, maxGoalTime)));
 	}
 
+	void RandomFishPos(Transform fish)
+	{
+		Vector3 pos = new Vector3(Random.Range(-tankSize.x, tankSize.x),
+									  Random.Range(-tankSize.y, tankSize.y),
+									  Random.Range(-tankSize.z, tankSize.z));
+
+		pos += transform.position;
+
+		fish.position = pos;
+	}
+
 	void RandomPos()
 	{
 		for (int i = 0; i < allFish.Count; i++)
 		{
-			Vector3 pos = new Vector3(Random.Range(-tankSize.x, tankSize.x),
-									  Random.Range(-tankSize.y, tankSize.y),
-									  Random.Range(-tankSize.z, tankSize.z));
-
-			pos += transform.position;
-
-			allFish[i].transform.position = pos;
+			RandomFishPos(allFish[i].transform);
 		}
 	}
 
@@ -101,7 +98,7 @@ public class Flock : MonoBehaviour
 		NewGoalPos();
 		newGoal = false;
 	}
-	
+
 	void NewGoalPos()
 	{
 		goalPos = new Vector3(Random.Range(-tankSize.x, tankSize.x),
@@ -109,5 +106,25 @@ public class Flock : MonoBehaviour
 								  Random.Range(-tankSize.z, tankSize.z));
 
 		goalPos += transform.position;
+	}
+
+	IEnumerator CreateFish()
+	{
+		if (fishPrefabs.Count > 0)
+		{
+			GameObject fishPrefab = fishPrefabs[Random.Range(0, fishPrefabs.Count - 1)];
+			while (allFish.Count < flockFish)
+			{
+				Vector3 rotVec = new Vector3(Random.Range(-1f, 1f),
+									  Random.Range(-1f, 1f),
+									  Random.Range(-1f, 1f));
+				var fish = Instantiate(fishPrefab, Vector3.zero, Quaternion.Euler(rotVec));
+				fish.GetComponent<Boid>().myFlock = this;
+				RandomFishPos(fish.transform);
+				allFish.Add(fish);
+
+				yield return new WaitForEndOfFrame();
+			}
+		}
 	}
 }
