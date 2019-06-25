@@ -30,7 +30,6 @@ public class VRRaycaster : MonoBehaviour
 		line.SetPosition(0, transform.position);
 		if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ~LayerMask.NameToLayer("UI")))
 		{
-			Debug.LogWarning("yes we hitted.");
 			line.SetPosition(1, hit.point);
 			if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger))
 			{

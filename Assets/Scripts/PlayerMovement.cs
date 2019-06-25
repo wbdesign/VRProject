@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		// Actually Move now
-		character.Move(m_speed * Orientation.forward);
+		character.Move(m_speed * Orientation.forward * Time.deltaTime);
 	}
 
 	public void TriggerPressed()
